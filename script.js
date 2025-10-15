@@ -115,7 +115,47 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         };
     };
 
-    return { playRound, getActivePlayer };
+    return { playRound, getActivePlayer, getGameboard: board.getGameboard };
 } 
 
-const game = GameController();
+function ScreenController() {
+    const game = GameController();
+    const playerTurnText = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
+
+    const updateScreen = () => {
+
+        boardDiv.textContent = "";
+
+        const board = game.getGameboard();
+        const activePlayer = game.getActivePlayer();
+
+        playerTurnText.textContent = `${activePlayer.name}'s turn...`
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                cellButton.dataset.row = rowIndex;
+                cellButton.dataset.column = colIndex;
+                cellButton.textContent = cell.getValue();
+                boardDiv.appendChild(cellButton);
+            });
+        });
+    }
+
+    function clickHandlerBoard(e) {
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
+        if (!selectedRow || !selectedColumn) return;
+
+        game.playRound(selectedRow, selectedColumn);
+        updateScreen();
+    }
+
+    boardDiv.addEventListener("click", clickHandlerBoard);
+
+    updateScreen();
+}
+
+ScreenController()
