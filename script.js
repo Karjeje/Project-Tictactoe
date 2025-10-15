@@ -108,10 +108,19 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             );
         }
 
+        const checkUnusedCells = () => {
+            return rawBoard.some(row => row.some(cell => cell.getValue() === 0))
+        }
+
         if (checkWinner()) {
             console.log(`Congrats ${getActivePlayer().name}, you won!`);
             printFinalBoard();
-            gameStatus = "over";
+            gameStatus = "win";
+        }
+        else if (!checkUnusedCells()) {
+            console.log(`It's a tie!`);
+            printFinalBoard();
+            gameStatus = "tie"
         }
         else {
             switchPlayerTurn(); //ne spremenit če je probal dat na zasedeno mesto
@@ -124,9 +133,10 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 function ScreenController() {
     const game = GameController();
+    const container = document.querySelector(".container");
     const playerTurnText = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
-    const resultText = document.querySelector(".result")
+    
 
     const updateScreen = () => {
 
@@ -149,9 +159,19 @@ function ScreenController() {
             });
         });
 
-        if (gameStatus === "over") {
-            playerTurnText.textContent = `Game over!`
-            resultText.textContent = `${activePlayer.name} has won!`
+        if (gameStatus === "win") {
+            playerTurnText.textContent = `Game over!`;
+            const resultText = document.createElement("h2");
+            resultText.classList.add("result");
+            resultText.textContent = `${activePlayer.name} has won!`;
+            container.appendChild(resultText);
+        }
+        else if (gameStatus === "tie") {
+            playerTurnText.textContent = `Game over!`;
+            const resultText = document.createElement("h2");
+            resultText.classList.add("result");
+            resultText.textContent = `It's a tie!`;
+            container.appendChild(resultText);
         }
     }
 
