@@ -67,11 +67,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     const printNewRound = () => {
         board.printGameboard();
-        console.log(`${getActivePlayer}'s turn.`);
+        console.log(`${getActivePlayer().name}'s turn.`);
     }
 
     const playRound = (row, column) => {
-        console.log(`Placing ${getActivePlayer}'s mark in row ${row}, column ${column}...`);
+        console.log(`Placing ${getActivePlayer().name}'s mark in row ${row}, column ${column}...`);
         board.placeMark(row, column, getActivePlayer().mark);
 
         //check for winner
@@ -82,3 +82,5 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     return { playRound, getActivePlayer };
 } 
+
+const game = GameController();
