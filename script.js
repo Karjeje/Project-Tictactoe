@@ -70,17 +70,47 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         console.log(`${getActivePlayer().name}'s turn.`);
     }
 
+    const printFinalBoard = () => {
+        board.printGameboard();
+        console.log(`Game over!`);
+    }
+
     const playRound = (row, column) => {
         console.log(`Placing ${getActivePlayer().name}'s mark in row ${row}, column ${column}...`);
         board.placeMark(row, column, getActivePlayer().mark);
 
-        //check for winner
+        const rawBoard = board.getGameboard();
 
-        switchPlayerTurn();
-        printNewRound();
+        const checkWinner = () => {
+            const winningCombos = [
+                [[0,0], [0,1], [0,2]],
+                [[1,0], [1,1], [1,2]],
+                [[2,0], [2,1], [2,2]],
+                [[0,0], [1,0], [2,0]],
+                [[0,1], [1,1], [2,1]],
+                [[0,2], [1,2], [2,2]],
+                [[0,0], [1,1], [2,2]],
+                [[0,2], [1,1], [2,0]]
+            ];
+
+            return winningCombos.some(
+                combo => combo.every(([row, col]) => rawBoard[row][col].getValue() === getActivePlayer().mark)
+            );
+        }
+
+        if (checkWinner()) {
+            console.log(`Congrats ${getActivePlayer().name}, you won!`);
+            printFinalBoard();
+        }
+        else {
+            switchPlayerTurn();
+            printNewRound();
+        };
     };
 
     return { playRound, getActivePlayer };
 } 
 
 const game = GameController();
+
+//ne spremenit če je probal dat na zasedeno mesto
