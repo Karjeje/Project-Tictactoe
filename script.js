@@ -3,6 +3,8 @@ function Gameboard() {
     const rows = 3;
     const columns = 3;
 
+    let repeatTurn = false;
+
     for (let i = 0; i < rows; i++) {
         gameboard[i] = [];
         for (let j = 0; j < columns; j++) {
@@ -13,21 +15,24 @@ function Gameboard() {
     const getGameboard = () => gameboard;
 
     const placeMark = (row, column, player) => {
-
        if (gameboard[row][column].getValue() === 0) {
         gameboard[row][column].addMark(player);
+        repeatTurn = false;
        }
        else {
+        repeatTurn = true;
         console.log("This cell is already taken!");
        }
     };
+
+    const getRepeatTurn = () => repeatTurn;
 
     const printGameboard = () => {
         const gameboardWithValues = gameboard.map((row) => row.map((cell) => cell.getValue()));
         console.log(gameboardWithValues);
     }
 
-    return { getGameboard, placeMark, printGameboard };
+    return { getGameboard, placeMark, printGameboard, getRepeatTurn };
 }
 
 function Cell() {
@@ -60,7 +65,9 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     let activePlayer = players[0];
 
     const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        if (!board.getRepeatTurn()) {
+            activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        }
     };
 
     const getActivePlayer = () => activePlayer;
@@ -103,7 +110,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             printFinalBoard();
         }
         else {
-            switchPlayerTurn();
+            switchPlayerTurn(); //ne spremenit če je probal dat na zasedeno mesto
             printNewRound();
         };
     };
@@ -112,5 +119,3 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 } 
 
 const game = GameController();
-
-//ne spremenit če je probal dat na zasedeno mesto
