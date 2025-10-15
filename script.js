@@ -44,7 +44,11 @@ function Cell() {
 
     const getValue = () => value;
 
-    return { addMark, getValue };
+    const reset = () => {
+        value = 0;
+    }
+
+    return { addMark, getValue, reset };
 }
 
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
@@ -128,7 +132,16 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         };
     };
 
-    return { playRound, getActivePlayer, getGameboard: board.getGameboard, getGameStatus };
+    const resetGame = () => {
+    const rawBoard = board.getGameboard();
+    rawBoard.forEach(row => {
+        row.forEach(cell => cell.reset());
+    });
+    activePlayer = players[0];
+    gameStatus = undefined;
+};
+
+    return { playRound, getActivePlayer, getGameboard: board.getGameboard, getGameStatus, resetGame };
 } 
 
 function ScreenController() {
@@ -191,6 +204,13 @@ function ScreenController() {
     }
 
     boardDiv.addEventListener("click", clickHandlerBoard);
+
+    const resetBtn = document.querySelector(".reset");
+    resetBtn.addEventListener("click", function() {
+        game.resetGame();
+        document.querySelectorAll(".result").forEach(el => el.remove());
+        updateScreen();
+    })
 
     updateScreen();
 }
