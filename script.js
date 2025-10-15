@@ -12,6 +12,24 @@ function Gameboard() {
 
     const getGameboard = () => gameboard;
 
+    const placeMark = (row, column, player) => {
+
+        const getAvailableCells = (gameboard) => {
+
+            const availableCells = [];
+
+            for (let row = 0; row < gameboard.length; row++) {
+                for (let col = 0; col < gameboard[row].length; col++) {
+                    if (gameboard[row][col] === 0) {
+                        availableCells.push({ row, col });
+                    }
+                }
+            }
+
+            return availableCells;
+        }
+    }
+
     return { getGameboard };
 }
 
