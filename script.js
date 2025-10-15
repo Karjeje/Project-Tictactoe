@@ -39,5 +39,46 @@ function Cell() {
 
     const getValue = () => value;
 
-    return { value, addMark, getValue };
+    return { addMark, getValue };
 }
+
+function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
+
+    const board = Gameboard();
+
+    const players = [
+        {
+            name: playerOneName,
+            mark: 1
+        },
+        {
+            name: playerTwoName,
+            mark: 2
+        }
+    ];
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    const getActivePlayer = () => activePlayer;
+
+    const printNewRound = () => {
+        board.printGameboard();
+        console.log(`${getActivePlayer}'s turn.`);
+    }
+
+    const playRound = (row, column) => {
+        console.log(`Placing ${getActivePlayer}'s mark in row ${row}, column ${column}...`);
+        board.placeMark(row, column, getActivePlayer().mark);
+
+        //check for winner
+
+        switchPlayerTurn();
+        printNewRound();
+    };
+
+    return { playRound, getActivePlayer };
+} 
