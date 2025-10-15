@@ -14,7 +14,7 @@ function Gameboard() {
 
     const placeMark = (row, column, player) => {
 
-       if (gameboard[row][column].getValue() === 0) {
+       if (gameboard[row][column].getValue() === "0") {
         gameboard[row][column].addMark(player);
        }
        else {
@@ -31,7 +31,7 @@ function Gameboard() {
 }
 
 function Cell() {
-    let value = 0;
+    let value = "0";
 
     const addMark = (player) => {
         value = player;
