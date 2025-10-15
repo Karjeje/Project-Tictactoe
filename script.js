@@ -14,10 +14,20 @@ function Gameboard() {
 
     const placeMark = (row, column, player) => {
 
-       
+       if (gameboard[row][column].getValue() === 0) {
+        gameboard[row][column].addMark(player);
+       }
+       else {
+        console.log("This cell is already taken!");
+       }
+    };
+
+    const printGameboard = () => {
+        const gameboardWithValues = gameboard.map((row) => row.map((cell) => cell.getValue()));
+        console.log(gameboardWithValues);
     }
 
-    return { getGameboard };
+    return { getGameboard, placeMark, printGameboard };
 }
 
 function Cell() {
@@ -29,5 +39,5 @@ function Cell() {
 
     const getValue = () => value;
 
-    return { addMark, getValue };
+    return { value, addMark, getValue };
 }
