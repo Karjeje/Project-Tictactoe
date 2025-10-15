@@ -50,6 +50,9 @@ function Cell() {
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
 
     const board = Gameboard();
+    let gameStatus;
+
+    const getGameStatus = () => gameStatus;
 
     const players = [
         {
@@ -108,6 +111,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         if (checkWinner()) {
             console.log(`Congrats ${getActivePlayer().name}, you won!`);
             printFinalBoard();
+            gameStatus = "over";
         }
         else {
             switchPlayerTurn(); //ne spremenit če je probal dat na zasedeno mesto
@@ -115,13 +119,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         };
     };
 
-    return { playRound, getActivePlayer, getGameboard: board.getGameboard };
+    return { playRound, getActivePlayer, getGameboard: board.getGameboard, getGameStatus };
 } 
 
 function ScreenController() {
     const game = GameController();
     const playerTurnText = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
+    const resultText = document.querySelector(".result")
 
     const updateScreen = () => {
 
@@ -129,6 +134,7 @@ function ScreenController() {
 
         const board = game.getGameboard();
         const activePlayer = game.getActivePlayer();
+        const gameStatus = game.getGameStatus();
 
         playerTurnText.textContent = `${activePlayer.name}'s turn...`
 
@@ -142,6 +148,11 @@ function ScreenController() {
                 boardDiv.appendChild(cellButton);
             });
         });
+
+        if (gameStatus === "over") {
+            playerTurnText.textContent = `Game over!`
+            resultText.textContent = `${activePlayer.name} has won!`
+        }
     }
 
     function clickHandlerBoard(e) {
