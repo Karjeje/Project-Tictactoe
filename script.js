@@ -176,6 +176,12 @@ function ScreenController() {
     }
 
     function clickHandlerBoard(e) {
+        const gameStatus = game.getGameStatus();
+
+        if (gameStatus === "win" || gameStatus === "tie") {
+            return;
+        }
+
         const selectedRow = e.target.dataset.row;
         const selectedColumn = e.target.dataset.column;
         if (!selectedRow || !selectedColumn) return;
