@@ -168,17 +168,15 @@ function ScreenController() {
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = colIndex;
 
+
                 if (cell.getValue() === 0) {
                     cellButton.textContent = "";
+                    cellButton.classList.add("available"); // ✅ only unplayed cells are hoverable
+                } 
+                else {
+                    cellButton.textContent = cell.getValue() === 1 ? "X" : "O";
                 }
-                else if (cell.getValue() === 1) {
-                    cellButton.textContent = "X"
-                }
-                else if (cell.getValue() === 2) {
-                    cellButton.textContent = "O"
-                }
-
-                // cellButton.textContent = cell.getValue();
+                
                 boardDiv.appendChild(cellButton);
             });
         });
