@@ -167,7 +167,18 @@ function ScreenController() {
                 cellButton.classList.add("cell");
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = colIndex;
-                cellButton.textContent = cell.getValue();
+
+                if (cell.getValue() === 0) {
+                    cellButton.textContent = "";
+                }
+                else if (cell.getValue() === 1) {
+                    cellButton.textContent = "X"
+                }
+                else if (cell.getValue() === 2) {
+                    cellButton.textContent = "O"
+                }
+
+                // cellButton.textContent = cell.getValue();
                 boardDiv.appendChild(cellButton);
             });
         });
