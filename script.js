@@ -51,7 +51,7 @@ function Cell() {
     return { addMark, getValue, reset };
 }
 
-function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
+function GameController(playerOneName = "Player One", playerTwoName = "Player Two", startingPlayerIndex = 0) {
 
     const board = Gameboard();
     let gameStatus;
@@ -69,7 +69,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         }
     ];
 
-    let activePlayer = players[0];
+    let activePlayer = players[startingPlayerIndex];
 
     const switchPlayerTurn = () => {
         if (!board.getRepeatTurn()) {
@@ -219,10 +219,13 @@ function ScreenController() {
 
     boardDiv.addEventListener("click", clickHandlerBoard);
 
+    let startingPlayerIndex = 0
+
     const resetBtn = document.querySelector(".reset");
     resetBtn.addEventListener("click", function() {
-        game.resetGame();
         document.querySelectorAll(".result").forEach(el => el.remove());
+        startingPlayerIndex = startingPlayerIndex === 0 ? 1 : 0;
+        game = GameController(playerOneName, playerTwoName, startingPlayerIndex);
         updateScreen();
     })
 
@@ -231,7 +234,8 @@ function ScreenController() {
         document.querySelectorAll(".result").forEach(el => el.remove());
         playerOneName = prompt("Enter Player One's name:") || "Player One";
         playerTwoName = prompt("Enter Player Two's name:") || "Player Two";
-        game = GameController(playerOneName, playerTwoName);
+        startingPlayerIndex = startingPlayerIndex === 0 ? 1 : 0;
+        game = GameController(playerOneName, playerTwoName, startingPlayerIndex);
         updateScreen();
     })
 
