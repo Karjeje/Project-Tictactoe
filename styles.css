@@ -73,7 +73,7 @@ body {
     border-radius: 8px;
 }
 
-.reset {
+.reset, .changeplayers {
     width: 100%;
     padding: 8px;
     border-radius: 8px;
@@ -82,6 +82,12 @@ body {
     cursor: pointer;
 }
 
-.reset:hover {
+.reset:hover, .changeplayers:hover {
   background-color: #ccc;
+}
+
+.buttoncontainer {
+    width: 100%;
+    display: flex;
+    gap: 10px;
 }
