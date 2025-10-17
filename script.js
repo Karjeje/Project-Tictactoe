@@ -145,7 +145,12 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 } 
 
 function ScreenController() {
-    const game = GameController();
+
+    let playerOneName = prompt("Enter Player One's name:") || "Player One";
+    let playerTwoName = prompt("Enter Player Two's name:") || "Player Two";
+
+
+    let game = GameController(playerOneName, playerTwoName);
     const container = document.querySelector(".container");
     const playerTurnText = document.querySelector(".turn");
     const boardDiv = document.querySelector(".board");
@@ -171,7 +176,7 @@ function ScreenController() {
 
                 if (cell.getValue() === 0) {
                     cellButton.textContent = "";
-                    cellButton.classList.add("available"); // ✅ only unplayed cells are hoverable
+                    cellButton.classList.add("available");
                 } 
                 else {
                     cellButton.textContent = cell.getValue() === 1 ? "X" : "O";
@@ -218,6 +223,15 @@ function ScreenController() {
     resetBtn.addEventListener("click", function() {
         game.resetGame();
         document.querySelectorAll(".result").forEach(el => el.remove());
+        updateScreen();
+    })
+
+    const changePlayersBtn = document.querySelector(".changeplayers");
+    changePlayersBtn.addEventListener("click", function() {
+        document.querySelectorAll(".result").forEach(el => el.remove());
+        playerOneName = prompt("Enter Player One's name:") || "Player One";
+        playerTwoName = prompt("Enter Player Two's name:") || "Player Two";
+        game = GameController(playerOneName, playerTwoName);
         updateScreen();
     })
 
